@@ -1,0 +1,124 @@
+<!-- Hero -->
+<section class="hero-section">
+  <img
+    *ngFor="let img of heroImages; let i = index"
+    [src]="img"
+    alt="Elegant modern furniture"
+    class="hero-image"
+    [class.active]="i === currentIndex"
+  />
+
+  <div class="container-fluid hero-container">
+    <div class="row">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="hero-content">
+          <p class="eyebrow">NATURAL MATERIALS. CALMER SPACES.</p>
+
+          <h1>Objects for<br />slower living.</h1>
+
+          <p class="hero-description">
+            Considered furniture and homeware for a more intentional
+            everyday. Timeless design, natural materials, lasting comfort.
+          </p>
+
+          <a routerLink="/collections" class="dark-button">
+            Explore collection <span>→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="categories-section">
+  <div class="container-fluid">
+    <div class="row align-items-end section-heading">
+      <div class="col-12 col-md">
+        <h2>Explore Our Categories</h2>
+      </div>
+      <div class="col-12 col-md-auto">
+        <a routerLink="/categories" class="view-all">
+          View All Categories <span>→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+      <div class="col" *ngFor="let cat of categoryCards">
+        <a class="card" [routerLink]="['/collections', cat.slug]">
+          <div class="card-image">
+            <img [src]="cat.image" [alt]="cat.name" />
+          </div>
+          <div class="card-body category-name">{{ cat.name }}</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Products -->
+<section class="featured-section">
+  <div class="container-fluid">
+    <div class="row align-items-end section-heading">
+      <div class="col-12 col-md">
+        <p class="eyebrow">FEATURED PRODUCTS</p>
+        <h2>Popular Choices</h2>
+      </div>
+      <div class="col-12 col-md-auto">
+        <a routerLink="/collections" class="view-all">
+          View All Products <span>→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+      <div class="col" *ngFor="let p of featuredProducts">
+        <a
+          class="card"
+          [routerLink]="['/collections', p.categorySlug, p.slug]"
+        >
+          <div class="card-image">
+            <img [src]="getImage(p)" [alt]="p.name" />
+          </div>
+          <div class="card-body product-body">
+            <h3>{{ p.name }}</h3>
+            <span class="details">View Details <span>→</span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About / Brand Story -->
+<section class="about-section">
+  <div class="container-fluid p-0 h-100">
+    <div class="row g-0 h-100">
+      <div class="col-12 col-md-8 about-image-wrapper">
+        <img
+          src="/images/about.png"
+          alt="A warm and peaceful living room"
+        />
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="about-content">
+          <p class="eyebrow">A MORE INTENTIONAL HOME</p>
+
+          <h2>Made to feel<br />at home.</h2>
+
+          <p>
+            Objects with purpose. Spaces with calm.
+            We create furniture and homeware for modern
+            lives lived more slowly.
+          </p>
+
+          <a routerLink="/about" class="dark-button">
+            Our philosophy <span>→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

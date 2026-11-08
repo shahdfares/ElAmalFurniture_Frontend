@@ -1,0 +1,161 @@
+<section class="pd container" *ngIf="productsDetails as p">
+
+  <!-- Breadcrumb -->
+  <nav class="pd-crumbs" aria-label="Breadcrumb">
+    <div class="pd-crumbs__trail">
+      <a routerLink="/">Home</a>
+      <span>/</span>
+      <a [routerLink]="['/', p.categorySlug]">{{ p.category }}</a>
+      <span>/</span>
+      <span class="pd-crumbs__current">
+        {{ p.name }}<ng-container *ngIf="p.code"> (Ref. {{ p.code }})</ng-container>
+      </span>
+    </div>
+  </nav>
+
+  <div class="row g-5 align-items-start">
+
+    <!-- ===== Gallery ===== -->
+    <div class="col-12 col-lg-7">
+      <div class="pd-gallery">
+
+        <figure class="pd-stage"
+                (mouseenter)="pause()"
+                (mouseleave)="resume()">
+
+          <img
+            *ngFor="let img of images; let i = index"
+            class="pd-stage__img"
+            [class.is-active]="i === activeIndex"
+            [src]="img.imagesUrl"
+            [alt]="p.name"
+          />
+
+          <figcaption class="pd-stage__caption">
+            Plate {{ plateNumber }} — {{ p.name }}
+          </figcaption>
+        </figure>
+
+        <div class="row g-2 mt-3" *ngIf="images.length > 1">
+          <div class="col-3 col-md-2" *ngFor="let img of images; let i = index">
+            <button
+              type="button"
+              class="pd-thumb"
+              [class.is-active]="i === activeIndex"
+              (click)="selectImage(i)"
+              [attr.aria-label]="'View image ' + (i + 1)"
+            >
+              <img [src]="img.imagesUrl" [alt]="p.name + ' ' + (i + 1)" />
+              <span class="pd-thumb__label">
+                {{ (i + 1) < 10 ? '0' + (i + 1) : (i + 1) }}
+              </span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===== Info ===== -->
+    <div class="col-12 col-lg-5">
+      <p class="pd-info__series">{{ p.category }}</p>
+      <h1 class="pd-info__title">{{ p.name }}</h1>
+      <p class="pd-info__tag" *ngIf="p.code">Ref. {{ p.code }}</p>
+      <p class="pd-info__desc" *ngIf="p.description">{{ p.description }}</p>
+
+      <div class="pd-specs" *ngIf="p.technicalSpecification.length">
+        <div class="row pd-specs__head mx-0">
+          <div class="col-8 px-0">Technical specifications</div>
+          <div class="col-4 px-0 text-end" *ngIf="p.code">Ref. {{ p.code }}</div>
+        </div>
+
+        <div class="row pd-specs__row mx-0" *ngFor="let spec of p.technicalSpecification">
+          <div class="col-12 col-sm-4 px-0 pd-specs__name">{{ spec.name }}</div>
+          <div class="col-12 col-sm-8 px-0 pd-specs__value">{{ spec.value }}</div>
+        </div>
+      </div>
+
+      <!-- ===== Actions ===== -->
+      <div class="pd-actions">
+
+        <div class="pd-share">
+          <button type="button" class="pd-btn pd-btn--solid"
+                  (click)="toggleShare()" [attr.aria-expanded]="shareOpen">
+            <i class="bi bi-share"></i> Share product
+          </button>
+
+          <div class="pd-share__menu" [class.is-open]="shareOpen" [attr.aria-hidden]="!shareOpen">
+
+            <button type="button" class="share-whatsapp" (click)="shareTo('whatsapp')">
+              <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </button>
+
+            <button type="button" class="share-facebook" (click)="shareTo('facebook')">
+              <i class="fa-brands fa-facebook-f"></i> Facebook
+            </button>
+
+            <button type="button" class="share-messenger" (click)="shareTo('messenger')">
+              <i class="fa-brands fa-facebook-messenger"></i> Messenger
+            </button>
+
+            <button type="button" class="share-telegram" (click)="shareTo('telegram')">
+              <i class="fa-brands fa-telegram"></i> Telegram
+            </button>
+
+            <button type="button" class="share-email" (click)="shareTo('email')">
+              <i class="fa-solid fa-envelope"></i> Email
+            </button>
+
+            <button type="button" class="share-copy" (click)="copyLink()">
+              <i class="fa-solid fa-link"></i> Copy link
+            </button>
+
+            <button type="button" *ngIf="canNativeShare" (click)="nativeShare()">
+              <i class="fa-solid fa-ellipsis"></i> More
+            </button>
+
+          </div>
+        </div>
+
+        <div class="row g-2 mt-2">
+          <div class="col-6">
+            <button type="button" class="pd-btn" (click)="printSheet()">
+              <i class="bi bi-printer"></i> Print spec sheet
+            </button>
+          </div>
+          <div class="col-6">
+            <button type="button" class="pd-btn" (click)="downloadPdf()" [disabled]="pdfLoading">
+              <i class="bi bi-download"></i> {{ pdfLoading ? 'Preparing...' : 'Download PDF' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>   <!-- نهاية col-lg-5 -->
+
+  </div>     <!-- نهاية row g-5 -->
+
+  <!-- ===== Related (جوه الـ container) ===== -->
+  <div class="pd-related" *ngIf="relatedProducts.length">
+    <div class="pd-related__head">
+      <span>More from {{ p.category }}</span>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-sm-6 col-lg-3" *ngFor="let r of relatedProducts">
+        <a class="pd-card" [routerLink]="['/collections', r.categorySlug, r.slug]">
+          <div class="pd-card__img">
+            <img [src]="relatedImage(r)" [alt]="r.name" loading="lazy" />
+          </div>
+          <h3 class="pd-card__name">{{ r.name }}</h3>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="pd-toast" [class.is-visible]="copied" role="status" aria-live="polite">
+    <i class="fa-solid fa-check"></i> Link copied
+  </div>
+
+</section>

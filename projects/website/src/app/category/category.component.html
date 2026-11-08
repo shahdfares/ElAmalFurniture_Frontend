@@ -1,0 +1,85 @@
+<!-- Page Hero -->
+<section class="cat-hero">
+  <div class="cat-hero-content">
+    <p class="eyebrow">OUR COLLECTION</p>
+    <h1>All Categories</h1>
+    <p class="hero-desc">
+      Browse our full range of thoughtfully crafted categories —
+      from statement furniture to everyday essentials.
+    </p>
+    <nav class="breadcrumb-nav" aria-label="breadcrumb">
+      <a routerLink="/home">Home</a>
+      <span class="separator">→</span>
+      <span class="current">Categories</span>
+    </nav>
+  </div>
+</section>
+
+<!-- Loading -->
+<section class="cat-section" *ngIf="isLoading">
+  <div class="loading-grid">
+    <div class="skeleton-card" *ngFor="let n of [1,2,3,4,5,6,7,8]">
+      <div class="skeleton-img"></div>
+      <div class="skeleton-text short"></div>
+      <div class="skeleton-text"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Error -->
+<section class="cat-section" *ngIf="!isLoading && errorMessage">
+  <div class="state-box">
+    <p class="state-icon">⚠</p>
+    <h2>Something went wrong</h2>
+    <p>{{ errorMessage }}</p>
+    <button class="dark-button" (click)="retry()">Try Again <span>→</span></button>
+  </div>
+</section>
+
+<!-- Empty -->
+<section class="cat-section" *ngIf="!isLoading && !errorMessage && categoryCards.length === 0">
+  <div class="state-box">
+    <p class="state-icon">∅</p>
+    <h2>No categories found</h2>
+    <p>Check back soon — new collections are on their way.</p>
+    <a routerLink="/home" class="dark-button">Back to Home <span>→</span></a>
+  </div>
+</section>
+
+<!-- Categories Grid -->
+<section class="cat-section" *ngIf="!isLoading && !errorMessage && categoryCards.length > 0">
+  <div class="container-fluid cat-container">
+
+    <!-- Section heading -->
+    <div class="row align-items-end section-heading">
+      <div class="col-12 col-md">
+        <p class="eyebrow">{{ categoryCards.length }} CATEGORIES</p>
+        <h2>Explore Everything</h2>
+      </div>
+      <div class="col-12 col-md-auto">
+        <a routerLink="/collections" class="view-all">
+          Browse All Products <span>→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+      <div class="col" *ngFor="let cat of categoryCards">
+        <a class="card" [routerLink]="['/collections', cat.slug]">
+          <div class="card-image">
+            <img [src]="cat.image" [alt]="cat.name" />
+            <div class="card-overlay">
+              <span class="explore-label">Explore <span>→</span></span>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="category-name">{{ cat.name }}</span>
+            <span class="products-count">{{ cat.productsCount }} products</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>

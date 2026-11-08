@@ -1,0 +1,62 @@
+<footer class="site-footer">
+  <div class="container-fluid">
+    <div class="row g-4">
+
+      <!-- Brand -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <a routerLink="/" class="footer-logo">
+          <img src="/images/Logo.png" alt="ElAmal Furniture" />
+        </a>
+        <p class="footer-tagline">Modern furniture for a better life.</p>
+      </div>
+
+      <!-- Collections -->
+      <div class="col-6 col-md-3 col-lg-2">
+        <h4 class="footer-title">Collections</h4>
+        <ul class="footer-links">
+          <li *ngFor="let c of collections()">
+            <a [routerLink]="['/collections', c.slug]">{{ c.name }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div class="col-6 col-md-3 col-lg-2">
+        <h4 class="footer-title">Company</h4>
+        <ul class="footer-links">
+          <li><a routerLink="/about">About Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Us -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <h4 class="footer-title">Contact Us</h4>
+        <ul class="footer-links footer-contact">
+          <li>
+            <i class="fa-solid fa-location-dot"></i>
+            <div>Your address here, Zagazig, Sharqia</div>
+          </li>
+          <li>
+            <i class="fa-solid fa-phone"></i>
+            <div>
+              <a href="tel:+201000000000">+20 100 000 0000</a>
+            </div>
+          </li>
+          <li>
+            <i class="fa-brands fa-facebook"></i>
+            <div>
+              <a href="https://facebook.com/your-page" target="_blank" rel="noopener">
+                ElAmal Furniture
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © {{ year }} ElAmal Furniture. All rights reserved.
+    </div>
+  </div>
+</footer>

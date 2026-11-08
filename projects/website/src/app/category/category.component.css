@@ -1,0 +1,332 @@
+:host {
+  display: block;
+  color: var(--color-text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ---- Hero ---- */
+.cat-hero {
+  background: var(--color-surface-alt);
+  padding: 72px 6% 60px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cat-hero-content {
+  max-width: 560px;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  color: var(--color-text-secondary);
+}
+
+.cat-hero h1 {
+  margin: 0 0 14px;
+  font-family: var(--font-heading);
+  font-size: clamp(36px, 4.5vw, 56px);
+  font-weight: 400;
+  letter-spacing: -1.5px;
+  line-height: 1.05;
+  color: var(--color-text);
+}
+
+.hero-desc {
+  max-width: 400px;
+  margin: 0 0 22px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+
+/* Breadcrumb */
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.breadcrumb-nav a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb-nav a:hover {
+  color: var(--color-text);
+}
+
+.breadcrumb-nav .separator {
+  opacity: 0.4;
+}
+
+.breadcrumb-nav .current {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+/* ---- Main Section ---- */
+.cat-section {
+  padding: 48px 0 72px;
+  background: var(--color-background);
+}
+
+.cat-container {
+  padding-left: 6%;
+  padding-right: 6%;
+}
+
+/* Section heading */
+.section-heading {
+  margin-bottom: 28px;
+  row-gap: 10px;
+}
+
+.section-heading h2 {
+  margin: 6px 0 0;
+  font-family: var(--font-heading);
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.view-all {
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.view-all:hover {
+  opacity: 0.6;
+}
+
+.view-all span {
+  margin-left: 6px;
+}
+
+/* ---- Cards ---- */
+.card {
+  display: block;
+  height: 100%;
+  min-width: 0;
+  background: var(--color-surface-container);
+  color: var(--color-text);
+  text-decoration: none;
+  border: 0;
+  border-radius: 0;
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+}
+
+.card-image {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.55s ease;
+}
+
+.card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+/* Hover overlay */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(27, 28, 26, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .card-overlay {
+  opacity: 1;
+}
+
+.explore-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.explore-label span {
+  display: inline-block;
+  margin-left: 6px;
+  transition: transform 0.25s ease;
+}
+
+.card:hover .explore-label span {
+  transform: translateX(5px);
+}
+
+/* Card body */
+.card-body {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 16px 14px;
+  gap: 8px;
+}
+
+.category-name {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.products-count {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+/* ---- Loading Skeletons ---- */
+.loading-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 0 6%;
+}
+
+.skeleton-card {
+  background: var(--color-surface-alt);
+  overflow: hidden;
+}
+
+.skeleton-img {
+  height: 260px;
+  background: linear-gradient(90deg,
+    var(--color-surface-container) 25%,
+    var(--color-surface-alt) 50%,
+    var(--color-surface-container) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeleton-text {
+  height: 12px;
+  margin: 14px 14px 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg,
+    var(--color-surface-container) 25%,
+    var(--color-surface-alt) 50%,
+    var(--color-surface-container) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeleton-text.short {
+  width: 55%;
+  margin-bottom: 0;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ---- State boxes (empty / error) ---- */
+.state-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 80px 24px;
+  gap: 12px;
+}
+
+.state-icon {
+  font-size: 2.5rem;
+  color: var(--color-text-secondary);
+  margin: 0 0 4px;
+}
+
+.state-box h2 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+.state-box p {
+  max-width: 320px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+/* Dark button (matches home page) */
+.dark-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 8px;
+  padding: 14px 18px;
+  background: var(--color-text);
+  color: var(--color-background);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid var(--color-text);
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.dark-button:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .cat-hero {
+    padding: 60px 5% 48px;
+  }
+
+  .cat-container {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .card-image {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-image {
+    height: 170px;
+  }
+}

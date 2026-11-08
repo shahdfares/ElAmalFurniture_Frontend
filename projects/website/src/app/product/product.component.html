@@ -1,0 +1,109 @@
+<!--Hero Section-->
+<div class="products-page">
+    <section class="products-hero">
+        <img src="/images/products/hero.png" alt="Discover Our Collection">
+    </section>
+</div>
+
+<!--Product Content-->
+<section class="container products-content">
+
+  <div class="row">
+
+    <div class="col-md-3">
+      <aside class="sidebar-box">
+
+        <!-- Filter Products -->
+        <h2 class="filter-heading">Filter Products</h2>
+        <hr>
+
+        <!-- Categories -->
+        <h3 class="sidebar-title">Categories</h3>
+
+        <ul class="category-list">
+          <li *ngFor="let c of visibleCategories">
+            <label class="category-check">
+              <input type="checkbox"
+                [checked]="selectedCategory === c.slug"
+                (change)="selectCategory(c.slug)">
+              <span class="check-mark"></span>
+              <span class="category-name">{{ c.name }}</span>
+              <span class="category-count">({{ c.productsCount }})</span>
+            </label>
+          </li>
+        </ul>
+
+        <button type="button" class="show-more-btn"
+                *ngIf="hasMoreCategories"
+                (click)="toggleShowAll()">
+          {{ showAll ? '− Show less' : '+ Show more' }}
+        </button>
+
+        <hr>
+
+        <!-- Sort -->
+        <h3 class="sidebar-title">Sort By</h3>
+
+        <label class="sort-option" *ngFor="let s of sortOptions">
+          <input type="radio" name="sort"
+                [checked]="selectedSort === s.value"
+                (change)="selectSort(s.value)">
+          <span class="radio-mark"></span>
+          {{ s.label }}
+        </label>
+
+        <button type="button" class="reset-btn"
+                *ngIf="hasActiveFilters"
+                (click)="resetFilters()">
+          Reset Filters
+        </button>
+      </aside>
+    </div>
+
+    <div class="col-md-9">
+
+      <!--Toolbar-->
+      <div class="products-toolbar d-flex justify-content-md-between align-items-center m-3">
+        <span class="showing-text">Showing {{startIndex}} – {{endIndex}} of {{totalCount}} Products</span>
+      </div>
+
+      <!--Products-->
+      <div class="row g-3">
+        <div class="col-md-3" *ngFor="let product of products">
+          <a class="product-card d-block h-100" [routerLink]="['/collections', product.categorySlug, product.slug]">
+            <div class="product-image w-100">
+              <img class="w-100 h-100 d-block" [src]="getPrimaryImage(product)" alt="{{product.name}}">
+            </div>
+            <h2>{{product.name}}</h2>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Pagination-->
+<section>
+
+  <nav class="pagination" aria-label="Products pagination" *ngIf="totalPages > 1">
+    <!--Previous Arrow-->
+    <button type="button" class="page-btn" [disabled]="pageIndex === 1" (click)="goToPage(pageIndex-1)">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <!--Number of pages-->
+    <button type="button" class="page-btn" *ngFor="let p of pages"
+            [class.active]="p === pageIndex" (click)="goToPage(p)">
+      {{p}}
+    </button>
+
+    <!--Next page-->
+    <button type="button" class="page-btn"
+            [disabled]="pageIndex === totalPages"
+            (click)="goToPage(pageIndex + 1)">
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+
+  </nav>
+
+</section>

@@ -1,0 +1,266 @@
+:host {
+  display: block;
+  color: var(--color-text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Hero Image */
+.products-hero {
+  width: 100%;
+  height: 215px;
+  overflow: hidden;
+}
+
+.product-card {
+  background: #F5EEE7;
+  color: var(--color-text);
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.product-image {
+  aspect-ratio: 1.25 / 1;
+  overflow: hidden;
+}
+
+.product-image img {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.04);
+}
+
+.product-card h2 {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 12px;
+  margin: 0;
+}
+
+/*************************************************/
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 40px;
+  padding-bottom: 64px;   /* المسافة بينه وبين الـ footer */
+}
+
+.page-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: #F5EEE7;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+
+.page-btn:hover:not(:disabled):not(.active) {
+  background: #eadfd3;
+}
+
+.page-btn.active {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.page-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+/* Toolbar */
+.showing-text {
+  font-size: 15px;
+  font-family: var(--font-heading);
+  color: var(--color-text);
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar-box {
+  background: transparent;
+  border-radius: 0;
+  padding: 0 0 64px;      /* المسافة تحت زرار Reset */
+  margin-top: 24px;
+}
+
+.sidebar-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+
+.sidebar-box hr {
+  border: 0;
+  border-top: 1px solid #e0d5c8;
+  margin: 18px 0;
+  opacity: 1;
+}
+
+.filter-heading {
+  margin: 0;
+  padding: 4px 0 2px;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* ---------- Categories (checkbox) ---------- */
+.category-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.category-check {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 4px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.category-check input,
+.sort-option input {
+  position: absolute;
+  opacity: 0;
+}
+
+.check-mark {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #c9bcae;
+  border-radius: 4px;
+  position: relative;
+  flex-shrink: 0;
+  transition: background .2s ease, border-color .2s ease;
+}
+
+.category-check input:checked + .check-mark {
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+}
+
+.category-check input:checked + .check-mark::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* شلت flex: 1 عشان العدد يفضل جنب الاسم */
+.category-name {
+  min-width: 0;
+}
+
+.category-count {
+  font-size: 13px;
+  color: #8a7d70;
+}
+
+/* ---------- Show more ---------- */
+.show-more-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 6px 4px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.show-more-btn:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Sort (radio) ---------- */
+.sort-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.radio-mark {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #c9bcae;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.sort-option input:checked + .radio-mark {
+  border-color: #1a1a1a;
+}
+
+.sort-option input:checked + .radio-mark::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: #1a1a1a;
+}
+
+.category-check input:focus-visible + .check-mark,
+.sort-option input:focus-visible + .radio-mark {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 2px;
+}
+
+/* Refresh */
+.reset-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 12px;
+  border: 1px solid #c9bcae;
+  border-radius: 10px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.reset-btn:hover {
+  background: #eadfd3;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .products-content {
+    padding: 20px 1rem 40px;
+  }
+}

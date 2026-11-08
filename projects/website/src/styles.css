@@ -1,0 +1,85 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --color-background: #FBF9F5;
+  --color-surface: #FBF9F5;
+  --color-surface-alt: #F5F3EF;
+  --color-surface-container: #EFEEEA;
+
+  --color-text: #1B1C1A;
+  --color-text-secondary: #6E6A64;
+
+  --color-border: rgba(26, 25, 24, 0.08);
+  --color-accent: #2C2825;
+
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+
+  --page-gutter: 2.5rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-weight: 300;
+}
+
+body {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+p {
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  border-radius: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --page-gutter: 1.5rem;
+  }
+}
+
+app-root {
+  display: block;
+  background-color: var(--color-background);
+}
