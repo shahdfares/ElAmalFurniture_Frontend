@@ -15,6 +15,9 @@ export * from './lib/interfaces/products/product-technical-specification'
 export * from './lib/interfaces/products/pagination-response'
 export * from './lib/interfaces/products/product-filter'
 
+export * from './lib/shared-ui/shared-ui-module';
+export * from './lib/delete-confirm-dialog/delete-confirm-dialog';
+
 
 
 

@@ -1,0 +1,37 @@
+<aside class="sidebar">
+  <div class="sidebar__top">
+    <!-- Brand -->
+    <div class="brand">
+      <div class="brand__logo">EA</div>
+      <div class="brand__text">
+        <span class="brand__name">ElAmal</span>
+        <span class="brand__sub">Atelier Admin</span>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="nav">
+      <a
+        *ngFor="let item of navItems"
+        class="nav__item"
+        [routerLink]="item.route"
+        routerLinkActive="nav__item--active"
+      >
+        <span class="material-symbols-outlined">{{ item.icon }}</span>
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Footer -->
+  <div class="sidebar__bottom">
+    <a class="nav__item" href="#">
+      <span class="material-symbols-outlined">help</span>
+      <span>Documentation</span>
+    </a>
+    <button class="nav__item nav__item--danger" type="button" (click)="signOut()">
+      <span class="material-symbols-outlined">logout</span>
+      <span>Sign Out</span>
+    </button>
+  </div>
+</aside>

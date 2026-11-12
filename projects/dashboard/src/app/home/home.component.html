@@ -1,0 +1,165 @@
+<main class="main">
+
+  <div class="content">
+
+    <!-- Welcome Card -->
+    <section class="card welcome">
+      <div class="welcome__text">
+        <h1 class="welcome__title">Welcome Back, {{ adminName }}</h1>
+        <p class="welcome__desc">
+          Here is the current state of ElAmal's furniture catalog and collections.
+        </p>
+      </div>
+
+      <div class="welcome__pills">
+        <div class="pill" *ngFor="let p of statusPills">
+          <span class="pill__label">{{ p.label }}</span>
+          <span class="pill__value">
+            <span class="pill__dot" *ngIf="p.dot"></span>
+            {{ p.value }}
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stat Cards -->
+    <section class="stats">
+
+      <!-- Total Products -->
+      <article class="card stat">
+        <span class="stat__label">Total Products</span>
+        <div class="stat__row">
+          <span class="stat__number">{{ loading ? '—' : (totalProducts ?? 0) }}</span>
+          <span class="badge badge--mint" *ngIf="!loading && addedThisMonth !== null">
+            +{{ addedThisMonth }} added this month
+          </span>
+        </div>
+        <p class="stat__foot">Across your curated collections &amp; archival prototypes</p>
+      </article>
+
+      <!-- Total Categories -->
+      <article class="card stat">
+        <span class="stat__label">Total Categories</span>
+        <div class="stat__row">
+          <span class="stat__number">{{ loading ? '—' : (totalCategories ?? 0) }}</span>
+          <span class="stat__hint">Active sections</span>
+        </div>
+        <p class="stat__foot stat__foot--ellipsis">
+          {{ categoryNames.length ? categoryNames.join(', ') : '—' }}
+        </p>
+      </article>
+
+      <!-- Product Drafting -->
+      <article class="card stat stat--action">
+        <span class="stat__label">New Specification</span>
+        <h3 class="stat__title">Product Drafting</h3>
+        <p class="stat__desc">
+          Upload high-res galleries, dimensions, and wood finishes.
+        </p>
+        <button class="btn-primary btn-block" type="button" routerLink="/addproduct">
+          Add New Product
+        </button>
+      </article>
+
+      <!-- Category Curation -->
+      <article class="card stat stat--action">
+        <span class="stat__label">Taxonomy</span>
+        <h3 class="stat__title">Category Curation</h3>
+        <p class="stat__desc">
+          Define new spatial zones, materials, and display order.
+        </p>
+        <button class="btn-secondary btn-block" type="button" routerLink="/categories/new">
+          Create Category
+        </button>
+      </article>
+
+    </section>
+
+    <!-- Recent Products -->
+    <section class="card recent">
+      <div class="recent__head">
+        <div>
+          <h2 class="recent__title">Recent Products</h2>
+          <p class="recent__sub">Latest luxury pieces entered into the master atelier registry.</p>
+        </div>
+        <a class="recent__link" routerLink="/products">
+          View Full Inventory
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Img</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Timeline</th>
+              <th class="th-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of recentProducts">
+              <td>
+                <div class="thumb">
+                  <img *ngIf="getPrimaryImage(p)" [src]="getPrimaryImage(p)" [alt]="p.name" />
+                </div>
+              </td>
+              <td class="td-name">{{ p.name }}</td>
+              <td><span class="tag">{{ p.category }}</span></td>
+              <td>
+                <button
+                  type="button"
+                  class="status status-btn"
+                  [class.status--hidden]="!isVisible(p)"
+                  (click)="toggleVisibility(p)"
+                  [title]="isVisible(p) ? 'Click to hide from website' : 'Click to show on website'">
+                  {{ isVisible(p) ? 'Visible' : 'Hidden' }}
+                </button>
+              </td>
+              <td class="td-muted">{{ addedAt(p) }}</td>
+              <td>
+                <div class="actions">
+                  <button
+                    class="icon-btn"
+                    type="button"
+                    (click)="toggleVisibility(p)"
+                    [title]="isVisible(p) ? 'Hide from website' : 'Show on website'">
+                    <span class="material-symbols-outlined">
+                      {{ isVisible(p) ? 'visibility' : 'visibility_off' }}
+                    </span>
+                  </button>
+
+                  <a class="icon-btn" [routerLink]="['/products/edit', p.id]" title="Edit">
+                    <span class="material-symbols-outlined">edit</span>
+                  </a>
+
+                  <button class="icon-btn" type="button" (click)="openDeleteDialog(p)" title="Delete">
+                    <span class="material-symbols-outlined">delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+
+            <tr *ngIf="!loading && !recentProducts.length">
+              <td colspan="6" class="empty">No products yet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- ============ DELETE DIALOG ============ -->
+<lib-delete-confirm-dialog
+  *ngIf="productToDelete"
+  [name]="productToDelete.name"
+  [imageUrl]="getPrimaryImage(productToDelete)"
+  [deleting]="deleting"
+  (confirmed)="confirmDelete()"
+  (cancelled)="closeDeleteDialog()">
+</lib-delete-confirm-dialog>

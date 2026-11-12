@@ -8,9 +8,12 @@ export interface Product {
   code: string,
   description: string,
   slug: string,
+  createdAt?: string;
+  isVisibile: boolean;
   categoryId: string,
   category: string,
   categorySlug: string,
   productImages: ProductImages[],
   technicalSpecification: ProductTechnicalSpecification[]
+
 }

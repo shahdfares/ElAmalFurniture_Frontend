@@ -12,10 +12,10 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { AboutComponent } from './about/about.component';
 import { ProductComponent } from './product/product.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { CategoryComponent } from './category/category.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -24,10 +24,10 @@ import { CategoryComponent } from './category/category.component';
     NavbarComponent,
     FooterComponent,
     NotfoundComponent,
-    AboutComponent,
     ProductComponent,
     ProductDetailsComponent,
     CategoryComponent,
+    AboutComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [

@@ -1,0 +1,283 @@
+<div class="page">
+  @if (toast) {
+    <div class="ap-toast" [class.ap-toast-success]="toast.type === 'success'" [class.ap-toast-error]="toast.type === 'error'" role="status">
+      <span class="material-symbols-outlined ap-toast-icon">
+        {{ toast.type === 'success' ? 'check_circle' : 'error' }}
+      </span>
+      <span class="ap-toast-msg">{{ toast.message }}</span>
+      <button type="button" class="ap-toast-close" (click)="closeToast()" aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+  }
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="page-title">
+      <h1>Add New Furniture Product</h1>
+      <p>Enter metadata and upload high-resolution photography.</p>
+    </div>
+
+    <div class="page-actions">
+      <button type="button" class="btn btn-outline" (click)="discard()">Discard</button>
+      <button type="button" class="btn btn-primary" [disabled]="isSaving" (click)="save()">
+        <span class="material-symbols-outlined">save</span>
+        Save &amp; Publish Product
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Left column -->
+    <div class="col">
+      <section class="card" [formGroup]="form">
+        <div class="card-head">
+          <h2><span class="dot"></span>Basic Information</h2>
+          <span class="chip">Step 01 / Core Data</span>
+        </div>
+
+        <div class="field">
+          <label for="name">Product Name <span class="req">*</span></label>
+          <input id="name" type="text" formControlName="name" placeholder="e.g. Nordic Bouclé Lounge Chair"
+            [class.invalid]="form.controls.name.touched && form.controls.name.invalid" />
+          @if (form.controls.name.touched && form.controls.name.invalid) {
+            <small class="error">Product name is required.</small>
+          }
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="code">Product Code / SKU</label>
+            <input id="code" type="text" formControlName="code" class="mono" placeholder="e.g. EAM-LC-04" />
+          </div>
+
+          <div class="field">
+            <label for="category">Category <span class="req">*</span></label>
+            <div class="select-wrap">
+              <select id="category" formControlName="categoryId"
+                [class.invalid]="form.controls.categoryId.touched && form.controls.categoryId.invalid">
+                <option value="" disabled>{{ categoriesLoading ? 'Loading categories...' : 'Select category' }}</option>
+                @for (c of categories; track c.id) {
+                  <option [value]="c.id">{{ c.name }}</option>
+                }
+              </select>
+              <span class="material-symbols-outlined select-icon">expand_more</span>
+            </div>
+            @if (categoriesError) {
+              <small class="error">{{ categoriesError }} <a href="javascript:void(0)" (click)="loadCategories()">Retry</a></small>
+            } @else if (form.controls.categoryId.touched && form.controls.categoryId.invalid) {
+              <small class="error">Please choose a category.</small>
+            }
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="description">Detailed Craft Description &amp; Material Overview</label>
+          <div class="editor">
+            <div class="toolbar">
+              <button type="button" title="Bold" (click)="applyFormat('bold')"><span class="material-symbols-outlined">format_bold</span></button>
+              <button type="button" title="Italic" (click)="applyFormat('italic')"><span class="material-symbols-outlined">format_italic</span></button>
+              <button type="button" title="Underline" (click)="applyFormat('underline')"><span class="material-symbols-outlined">format_underlined</span></button>
+              <span class="sep"></span>
+              <button type="button" title="Bulleted list" (click)="applyFormat('ul')"><span class="material-symbols-outlined">format_list_bulleted</span></button>
+              <button type="button" title="Numbered list" (click)="applyFormat('ol')"><span class="material-symbols-outlined">format_list_numbered</span></button>
+              <button type="button" title="Quote" (click)="applyFormat('quote')"><span class="material-symbols-outlined">format_quote</span></button>
+              <span class="sep"></span>
+              <button type="button" title="Link" (click)="applyFormat('link')"><span class="material-symbols-outlined">link</span></button>
+              <button type="button" title="Image" (click)="applyFormat('image')"><span class="material-symbols-outlined">image</span></button>
+              <span class="md-label">Markdown Enabled</span>
+            </div>
+            <textarea #descriptionBox id="description" rows="6" formControlName="description"
+              placeholder="Describe the craftsmanship, materials and story behind this piece..."></textarea>
+          </div>
+          <div class="editor-foot">
+            <span>Includes material specifications and curation tone of voice.</span>
+            <span>{{ wordCount }} words</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Technical Specifications -->
+      <section class="card">
+        <div class="card-head">
+          <h2><span class="dot"></span>Technical Specifications</h2>
+          <span class="chip">Matrix Grid</span>
+        </div>
+        <p class="card-desc">Select the specifications that apply, then fill in each value.</p>
+
+        @if (specsError) {
+          <p class="spec-state error">{{ specsError }} <a href="javascript:void(0)" (click)="loadSpecs()">Retry</a></p>
+        } @else if (specsLoading && !specs.length) {
+          <p class="spec-state">Loading specifications...</p>
+        } @else if (!specs.length) {
+          <p class="spec-state">No specifications yet. Use the + button to add one.</p>
+        }
+
+        <ul class="spec-list">
+          @for (s of specs; track s.id) {
+            <li class="spec-row" [class.selected]="s.selected">
+              <div class="spec-name-wrap">
+                <button type="button" class="spec-name" [class.active]="s.selected"
+                  [attr.aria-pressed]="s.selected" [title]="s.name" (click)="toggleSpec(s)">
+                  {{ s.name }}
+                </button>
+
+                <div class="spec-actions">
+                  <button type="button" class="icon-btn" title="Rename" aria-label="Rename specification" (click)="openEditSpec(s)">
+                    <span class="material-symbols-outlined">edit</span>
+                  </button>
+                  <button type="button" class="icon-btn danger" title="Delete" aria-label="Delete specification" (click)="openDeleteSpec(s)">
+                    <span class="material-symbols-outlined">close</span>
+                  </button>
+                </div>
+              </div>
+
+              @if (s.selected) {
+                <input class="spec-value" type="text" [id]="'spec-value-' + s.id"
+                  [value]="s.value" (input)="s.value = $any($event.target).value"
+                  [attr.aria-label]="s.name + ' value'" placeholder="Enter value" />
+              }
+            </li>
+          }
+
+          <li class="spec-add">
+            <button type="button" class="spec-add-btn" title="Add new specification"
+              aria-label="Add new specification" (click)="openAddSpec()">
+              <span class="material-symbols-outlined">add</span>
+            </button>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Right column -->
+    <section class="card">
+      <div class="card-head">
+        <h2><span class="dot"></span>Product Media</h2>
+        <span class="count">{{ media.length }}/{{ maxAssets }} Assets</span>
+      </div>
+
+      <div class="dropzone" [class.dragging]="isDragging"
+        (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+        <div class="drop-icon"><span class="material-symbols-outlined">cloud_upload</span></div>
+        <p class="drop-title">
+          Drag high-resolution furniture photos here, or
+          <a href="javascript:void(0)" (click)="browse()">click to browse</a>
+        </p>
+        <p class="drop-hint">Supports high-res PNG, JPG up to 15MB</p>
+        <input #fileInput type="file" accept="image/png,image/jpeg" multiple hidden (change)="onFilesSelected($event)" />
+      </div>
+      @if (uploadError) {
+        <small class="error">{{ uploadError }}</small>
+      }
+
+      <div class="gallery-head">
+        <span>Gallery Arrangement</span>
+        <span class="muted">Reorder or set hero view</span>
+      </div>
+
+      <div class="gallery">
+        @for (m of media; track m.id) {
+          <div class="tile" [class.primary]="m.id === primaryId">
+            <img [src]="m.previewUrl" [alt]="m.file.name" />
+
+            @if (m.id === primaryId) {
+              <span class="badge"><span class="material-symbols-outlined">star</span>Primary Image</span>
+            }
+
+            <button type="button" class="remove" title="Remove" (click)="removeMedia(m.id)">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+
+            @if (m.id !== primaryId) {
+              <button type="button" class="set-primary" (click)="setPrimary(m.id)">Set as primary</button>
+            }
+          </div>
+        }
+
+        @for (s of slots; track $index) {
+          <button type="button" class="tile empty" (click)="browse()">
+            <span class="material-symbols-outlined">add_photo_alternate</span>
+            <span>Attach Image</span>
+          </button>
+        }
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Add / rename specification modal -->
+@if (specModal) {
+  <div class="sd-backdrop" (click)="closeSpecModal()">
+    <div class="sd-dialog" role="dialog" aria-modal="true" aria-labelledby="spec-modal-title" (click)="$event.stopPropagation()">
+      <div class="sd-top">
+        <span class="sd-icon">
+          <span class="material-symbols-outlined">{{ specModal.mode === 'add' ? 'add' : 'edit' }}</span>
+        </span>
+        <button type="button" class="sd-close" aria-label="Close" (click)="closeSpecModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <h3 id="spec-modal-title">{{ specModal.mode === 'add' ? 'Add New Specification' : 'Rename Specification' }}</h3>
+      <p class="sd-text">
+        {{ specModal.mode === 'add'
+          ? 'Add a specification name that can be used on any product.'
+          : 'Changing the name updates it everywhere it is used.' }}
+      </p>
+
+      <div class="sd-field">
+        <label for="spec-modal-input">Specification name</label>
+        <input id="spec-modal-input" type="text" maxlength="100" placeholder="e.g. Seat Height"
+          [value]="specModalName" (input)="specModalName = $any($event.target).value"
+          (keydown.enter)="saveSpecModal()" />
+        @if (specModalError) {
+          <small class="error">{{ specModalError }}</small>
+        }
+      </div>
+
+      <div class="sd-actions">
+        <button type="button" class="btn btn-soft" (click)="closeSpecModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" [disabled]="specModalSaving" (click)="saveSpecModal()">
+          <span class="material-symbols-outlined">{{ specModal.mode === 'add' ? 'add' : 'check' }}</span>
+          {{ specModalSaving ? 'Saving...' : (specModal.mode === 'add' ? 'Add Specification' : 'Save Changes') }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Delete specification modal -->
+@if (specToDelete) {
+  <div class="sd-backdrop" (click)="closeDeleteSpec()">
+    <div class="sd-dialog" role="alertdialog" aria-modal="true" aria-labelledby="spec-delete-title" (click)="$event.stopPropagation()">
+      <div class="sd-top">
+        <span class="sd-icon danger">
+          <span class="material-symbols-outlined">delete</span>
+        </span>
+        <button type="button" class="sd-close" aria-label="Close" (click)="closeDeleteSpec()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <h3 id="spec-delete-title">Delete This Specification</h3>
+
+      <div class="sd-chip-row">
+        <span class="sd-chip">{{ specToDelete.name }}</span>
+      </div>
+
+      <p class="sd-text center">
+        Are you sure you want to delete this specification? It will no longer be available
+        when adding products. This action cannot be undone.
+      </p>
+
+      <div class="sd-actions">
+        <button type="button" class="btn btn-soft" (click)="closeDeleteSpec()">Cancel</button>
+        <button type="button" class="btn btn-danger" [disabled]="specDeleting" (click)="confirmDeleteSpec()">
+          <span class="material-symbols-outlined">delete</span>
+          {{ specDeleting ? 'Deleting...' : 'Delete Specification' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

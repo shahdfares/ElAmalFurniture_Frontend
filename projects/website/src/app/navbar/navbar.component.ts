@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ChangeDetectorRef, ElementRef, HostListen
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { Category, CategoryServices } from 'shared';
-
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-navbar',
   standalone: false,
@@ -10,6 +10,8 @@ import { Category, CategoryServices } from 'shared';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+
+  dashboardUrl = environment.dashboard;
 
   showSearch = false;
   searchTerm = '';
@@ -79,7 +81,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.openCategories();
   }
 
-  // الماوس خرج: اقفل لحظياً
+
   closeCategories(): void {
     if (this.categoriesOpen) {
       this.categoriesOpen = false;

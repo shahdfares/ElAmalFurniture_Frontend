@@ -1,267 +1,117 @@
-<!-- ===============================================
-     HERO — Soft, warm, intimate
-     =============================================== -->
-<section class="hero">
-  <div class="hero-img-wrap">
-    <img
-      src="https://images.unsplash.com/photo-1600210492493-0946911123ea?auto=format&fit=crop&w=1600&q=85"
-      alt="Cozy warm bedroom with natural light"
-    />
-    <div class="hero-wash"></div>
-  </div>
+<main class="about">
+  <!-- Hero -->
+  <section class="about-hero" style="background-image: url('/images/about/hero.jpg')">
+    <div class="about-hero__inner">
+      <h1>About Us</h1>
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+        <a href="/">Home</a>
+        <span>&gt;</span>
+        <span>About</span>
+      </nav>
+    </div>
+  </section>
 
-  <div class="hero-text">
-    <span class="tag">Our Story</span>
-    <h1>A home should<br />feel like a hug.</h1>
-    <p>
-      We've spent over a decade searching for furniture that feels warm,
-      lasts a lifetime, and belongs in a real home — not a showroom.
-    </p>
-    <a routerLink="/collections" class="btn-warm">
-      See our pieces <span>→</span>
-    </a>
-  </div>
-</section>
+  <!-- Welcome -->
+  <section class="about-welcome container">
+    <div class="about-welcome__text">
+      <span class="eyebrow">Welcome to ElAmal</span>
+      <h2>Your Trusted Partner<br />for Better Living</h2>
+      <p>
+        At ElAmal Furniture, we believe that a home is more than just a place — it’s a feeling.
+        That’s why we’re dedicated to bringing you high-quality, stylish, and comfortable furniture
+        that fits your lifestyle and reflects your taste.
+      </p>
+      <a href="/collections" class="btn btn--dark">
+        Discover Our Collection
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="about-welcome__media">
+      <img src="/images/about/welcome.jpg" alt="Cozy living room" />
+    </div>
+  </section>
 
-
-<!-- ===============================================
-     INTRO — Cozy text block, centred
-     =============================================== -->
-<section class="intro">
-  <div class="intro-inner">
-    <span class="tag">Who We Are</span>
-    <h2>Born from a love<br />of slow living.</h2>
-    <p>
-      ElAmal started in 2012 in a small workshop in Zagazig.
-      We wanted furniture that felt honest — no sharp edges,
-      no disposable trends, just pieces you'd hand down to
-      someone you love.
-    </p>
-    <p>
-      Today we still ask the same question before adding anything
-      to our collection: <em>would this make a room feel like home?</em>
-    </p>
-  </div>
-</section>
-
-
-<!-- ===============================================
-     MISSION & VISION
-     =============================================== -->
-<section class="mv">
-  <div class="mv-inner">
-
-    <!-- Decorative top rule -->
-    <div class="mv-rule"></div>
-
-    <div class="mv-grid">
-
-      <!-- Mission -->
-      <div class="mv-card">
-        <div class="mv-icon">
-          <i class="fa-solid fa-compass"></i>
-        </div>
-        <span class="tag">Our Mission</span>
-        <h2>To make warmth<br />accessible.</h2>
-        <p>
-          Our mission is simple: bring honest, well-crafted furniture
-          into as many homes as possible. We believe everyone deserves
-          a living space that feels calm, personal, and built to last —
-          not just those with a decorator's budget.
-        </p>
-        <ul class="mv-bullets">
-          <li>Responsibly sourced natural materials</li>
-          <li>Transparent, fair pricing</li>
-          <li>Furniture made to outlive trends</li>
-        </ul>
+  <!-- Features -->
+  <section class="features">
+    <div class="features__grid container">
+      <div class="feature">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M9 3l-2 6 5 12M15 3l2 6-5 12"/></svg>
+        <h3>Premium Quality</h3>
+        <p>Only the best materials</p>
       </div>
-
-      <!-- Divider -->
-      <div class="mv-divider" aria-hidden="true"></div>
-
-      <!-- Vision -->
-      <div class="mv-card">
-        <div class="mv-icon">
-          <i class="fa-solid fa-eye"></i>
-        </div>
-        <span class="tag">Our Vision</span>
-        <h2>A world of<br />slower homes.</h2>
-        <p>
-          We envision a future where people choose fewer, better things.
-          Where a home is a sanctuary rather than a storage space —
-          and where the objects inside it carry meaning, memory,
-          and a quiet kind of beauty.
-        </p>
-        <ul class="mv-bullets">
-          <li>Spaces that breathe and restore</li>
-          <li>Design that spans generations</li>
-          <li>Less clutter, more intention</li>
-        </ul>
+      <div class="feature">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v3"/><path d="M3 13a2 2 0 0 1 4 0v2h10v-2a2 2 0 0 1 4 0v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M6 19v2M18 19v2"/></svg>
+        <h3>Modern Designs</h3>
+        <p>For every taste</p>
       </div>
-
-    </div>
-
-    <!-- Decorative bottom rule -->
-    <div class="mv-rule"></div>
-
-  </div>
-</section>
-
-
-<!-- ===============================================
-     SPLIT — Story image beside a warm quote
-     =============================================== -->
-<section class="split">
-  <div class="split-image">
-    <img
-      src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=85"
-      alt="Warm living room with natural materials"
-    />
-  </div>
-
-  <div class="split-content">
-    <span class="tag">Our Belief</span>
-    <blockquote>
-      "The best furniture<br />disappears into your life."
-    </blockquote>
-    <p>
-      You shouldn't notice a great chair — you should just feel comfortable.
-      A beautiful table should become part of the family, quietly gathering
-      memories over the years.
-    </p>
-    <p>
-      That is what we design for.
-    </p>
-  </div>
-</section>
-
-
-<!-- ===============================================
-     VALUES — Simple warm rows
-     =============================================== -->
-<section class="values">
-  <div class="values-inner">
-    <span class="tag">What We Stand For</span>
-    <h2>Four things we never<br />compromise on.</h2>
-
-    <div class="values-list">
-
-      <div class="value-row">
-        <div class="value-num">01</div>
-        <div class="value-body">
-          <h3>Natural materials only</h3>
-          <p>
-            Solid wood, linen, stone, and ceramic. Nothing synthetic —
-            materials that feel good to touch and get better with age.
-          </p>
-        </div>
+      <div class="feature">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/></svg>
+        <h3>Trusted Brand</h3>
+        <p>Your satisfaction first</p>
       </div>
-
-      <div class="value-row">
-        <div class="value-num">02</div>
-        <div class="value-body">
-          <h3>Built to last decades</h3>
-          <p>
-            We don't follow trends. Every piece is chosen to look as right
-            in your home in twenty years as it does on day one.
-          </p>
-        </div>
+      <div class="feature">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="13" width="4" height="6" rx="2"/><rect x="17" y="13" width="4" height="6" rx="2"/><path d="M19 19c0 2-2 3-5 3h-2"/></svg>
+        <h3>Dedicated Support</h3>
+        <p>Always here for you</p>
       </div>
+    </div>
+  </section>
 
-      <div class="value-row">
-        <div class="value-num">03</div>
-        <div class="value-body">
-          <h3>Made by real hands</h3>
-          <p>
-            Every item in our collection is crafted by skilled artisans.
-            The small imperfections are part of the soul.
-          </p>
-        </div>
+  <!-- Story -->
+  <section class="story container">
+    <div class="story__media">
+      <img src="/images/about/story.jpg" alt="Elegant dining room" />
+    </div>
+    <div class="story__text">
+      <span class="eyebrow">Our Story</span>
+      <h2>A Journey of Passion<br />and Excellence</h2>
+      <p>
+        ElAmal Furniture was founded with a simple vision: to make beautiful, functional furniture
+        accessible to every home. Over the years, we’ve grown into a trusted name in the furniture
+        world, known for our quality, design, and commitment to our customers.
+      </p>
+      <p>
+        From our first piece to our latest collection, our journey has always been about you — your
+        comfort, your style, and your home.
+      </p>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="values container">
+    <span class="eyebrow eyebrow--center">Our Values</span>
+    <h2>What Makes Us Different</h2>
+    <div class="values__grid">
+      <div class="value">
+        <span class="value__icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 17l-5.6 3 1.3-6.2L3 9.5l6.3-.7z"/></svg></span>
+        <h3>Quality<br />in Every Detail</h3>
       </div>
-
-      <div class="value-row">
-        <div class="value-num">04</div>
-        <div class="value-body">
-          <h3>Calm, not cluttered</h3>
-          <p>
-            We curate, not collect. A handful of perfect pieces beats a
-            house full of forgettable ones every time.
-          </p>
-        </div>
+      <div class="value">
+        <span class="value__icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-8-4.9-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 9c0 6.1-8 11-8 11z"/></svg></span>
+        <h3>Customer<br />First</h3>
       </div>
-
+      <div class="value">
+        <span class="value__icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></span>
+        <h3>Timeless<br />Designs</h3>
+      </div>
+      <div class="value">
+        <span class="value__icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19C4 9 10 4 20 4c0 10-5 16-15 15z"/><path d="M5 19c3-5 6-8 10-10"/></svg></span>
+        <h3>A More Beautiful<br />Home</h3>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-
-<!-- ===============================================
-     WARMTH STRIP — 3 cozy images + a stat
-     =============================================== -->
-<section class="warmth-strip">
-  <div class="strip-images">
-
-    <div class="strip-img strip-img--tall">
-      <img
-        src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=700&q=85"
-        alt="Cozy neutral living room"
-      />
+  <!-- CTA -->
+  <section class="cta-wrap">
+    <div class="cta" style="background-image: url('/images/about/cta.jpg')">
+      <div class="cta__content">
+        <h2>Let’s Create a More Beautiful Home Together</h2>
+        <a href="/categories" class="btn btn--outline">
+          Explore Our Categories
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
     </div>
-
-    <div class="strip-img strip-img--short">
-      <img
-        src="https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=700&q=85"
-        alt="Minimal warm bedroom"
-      />
-    </div>
-
-    <div class="strip-img strip-img--short">
-      <img
-        src="https://images.unsplash.com/photo-1577140917170-285929fb55b7?auto=format&fit=crop&w=700&q=85"
-        alt="Warm dining space"
-      />
-    </div>
-
-  </div>
-
-  <div class="strip-numbers">
-    <div class="strip-stat">
-      <span class="s-num">12+</span>
-      <span class="s-lbl">Years making homes warmer</span>
-    </div>
-    <div class="strip-stat">
-      <span class="s-num">3,400</span>
-      <span class="s-lbl">Homes we've been part of</span>
-    </div>
-    <div class="strip-stat">
-      <span class="s-num">200+</span>
-      <span class="s-lbl">Carefully chosen pieces</span>
-    </div>
-  </div>
-</section>
-
-
-<!-- ===============================================
-     CTA — Warm, personal close
-     =============================================== -->
-<section class="cta">
-  <div class="cta-image-wrap">
-    <img
-      src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=1600&q=85"
-      alt="Serene bedroom corner with warm natural light"
-    />
-    <div class="cta-wash"></div>
-  </div>
-
-  <div class="cta-text">
-    <span class="tag tag--light">Come Visit</span>
-    <h2>Find the pieces<br />that feel like yours.</h2>
-    <p>
-      Our showroom in Zagazig is open six days a week.
-      Come in, sit down, touch the fabric — no pressure, just comfort.
-    </p>
-    <a routerLink="/collections" class="btn-warm btn-warm--light">
-      Browse the collection <span>→</span>
-    </a>
-  </div>
-</section>
+  </section>
+</main>

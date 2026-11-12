@@ -34,4 +34,24 @@ getProductDetails(categorySlug: string, productSlug: string):Observable<any>{
     return this._httpClient.get(`${this.apiUrl}/product/${categorySlug}/${productSlug}`)
   }
 
+updateProduct(id: string, body: FormData): Observable<any> {
+  return this._httpClient.put(`${this.apiUrl}product/${id}`, body);
+}
+
+deleteProduct(id: string):Observable<any>{
+  return this._httpClient.delete(`${this.apiUrl}/product/${id}`)
+}
+
+updateVisibility(id: string, isVisibile: boolean):Observable<any>{
+  return this._httpClient.patch(`${this.apiUrl}/product/${id}/visibility`, {isVisibile})
+}
+
+setPrimaryImage(productId:string, imageId:string):Observable<any>{
+  return this._httpClient.patch(`${this.apiUrl}/product/${productId}/primary-image/${imageId}`, {})
+}
+
+addProduct(formData: FormData): Observable<any> {
+  return this._httpClient.post(`${this.apiUrl}/product`, formData);
+}
+
 }

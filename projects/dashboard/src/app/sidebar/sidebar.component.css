@@ -1,0 +1,140 @@
+/* ---------- Sidebar ---------- */
+:host {
+  display: block;
+  flex-shrink: 0;
+}
+
+.sidebar {
+  width: 260px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 16px;
+  background: var(--surface-white);
+  border-right: 1px solid var(--border);
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px;
+  margin-bottom: 28px;
+}
+
+.brand__logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.brand__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--primary);
+}
+
+.brand__sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* Nav */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 24px;
+}
+
+.nav__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav__item .material-symbols-outlined {
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.nav__item:hover {
+  background: var(--surface);
+}
+
+.nav__item--active {
+  background: var(--secondary);
+  color: var(--text);
+  font-weight: 500;
+}
+
+.nav__item--active .material-symbols-outlined {
+  color: var(--primary);
+}
+
+/* Bottom */
+.sidebar__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.nav__item--danger,
+.nav__item--danger .material-symbols-outlined {
+  color: var(--danger);
+}
+
+.nav__item--danger:hover {
+  background: #fdf0ef;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1199px) {
+  .sidebar {
+    width: 72px;
+    padding: 24px 12px;
+    align-items: center;
+  }
+  .brand__text,
+  .nav__item span:not(.material-symbols-outlined) {
+    display: none;
+  }
+  .nav__item {
+    justify-content: center;
+    padding: 12px;
+  }
+}

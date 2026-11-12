@@ -1,20 +1,39 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
-import { CategoryListComponent } from './categories/category-list/category-list.component';
 
-import { API_URL } from 'shared';
+import { API_URL, SharedUiModule } from 'shared';
+import { environment } from '../environments/environment';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { AuthInterceptor } from './core/auth-interceptor';
+import { NotfoundComponent } from './notfound/notfound.component';
+import { ProductComponent } from './product/product.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { AddproductComponent } from './addproduct/addproduct.component';
 
 @NgModule({
-  declarations: [App, CategoryListComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  declarations: [
+    App,
+    HomeComponent,
+    LoginComponent,
+    NotfoundComponent,
+    ProductComponent,
+    NavbarComponent,
+    SidebarComponent,
+    AddproductComponent,
+  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, SharedUiModule],
   providers: [
     provideBrowserGlobalErrorListeners(),
-    { provide: API_URL, useValue: 'http://localhost:3000/api' },
+    { provide: API_URL, useValue: environment.apiUrl },
+    provideHttpClient(withInterceptorsFromDi()),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [App],
 })

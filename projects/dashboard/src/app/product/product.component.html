@@ -1,0 +1,225 @@
+<div class="content">
+
+  <!-- Page header -->
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">Products Management</h1>
+      <p class="page-sub">Manage your furniture collection, specifications, and imagery.</p>
+    </div>
+  </div>
+
+  <!-- Filters card -->
+  <section class="card filters">
+    <div class="filters__row">
+      <div class="search">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" [(ngModel)]="search" placeholder="Search by product name..." />
+      </div>
+
+      <div class="select-wrap">
+        <span class="material-symbols-outlined select-wrap__icon">filter_list</span>
+        <select class="select select--icon" [(ngModel)]="statusFilter">
+          <option value="all">Status: All</option>
+          <option value="visible">Status: Active</option>
+          <option value="hidden">Status: Hidden</option>
+        </select>
+        <span class="material-symbols-outlined select-wrap__arrow">arrow_drop_down</span>
+      </div>
+
+      <div class="sort">
+        <span>Sort by:</span>
+        <div class="select-wrap">
+          <select class="select select--sort" [(ngModel)]="sort" (change)="onSortChange()">
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="nameAsc">Name (A-Z)</option>
+            <option value="nameDesc">Name (Z-A)</option>
+          </select>
+          <span class="material-symbols-outlined select-wrap__arrow">expand_more</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category chips -->
+    <div class="chips">
+      <button type="button" class="chip" [class.chip--active]="selectedSlug === null"
+              (click)="selectCategory(null)">
+        All Categories ({{ totalAll }})
+      </button>
+
+      <button *ngFor="let c of shownCategories" type="button" class="chip"
+              [class.chip--active]="selectedSlug === c.slug"
+              (click)="selectCategory(c.slug)">
+        {{ c.name }} ({{ c.count }})
+      </button>
+
+      <button *ngIf="hiddenCount > 0" type="button" class="chip chip--more"
+              (click)="showAllCats = !showAllCats"
+              [title]="showAllCats ? 'Show less' : 'Show all categories'">
+        <span class="material-symbols-outlined">{{ showAllCats ? 'remove' : 'add' }}</span>
+        <span *ngIf="!showAllCats">{{ hiddenCount }}</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Table card -->
+  <section class="card table-card">
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Thumbnail</th>
+            <th>Product Name &amp; SKU</th>
+            <th>Category</th>
+            <th>Images</th>
+            <th>Status</th>
+            <th class="th-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of filteredProducts">
+            <td>
+              <div class="thumb">
+                <img *ngIf="getPrimaryImage(p)" [src]="getPrimaryImage(p)" [alt]="p.name" />
+              </div>
+            </td>
+            <td>
+              <div class="name">{{ p.name }}</div>
+              <div class="sku">SKU: {{ p.code }}</div>
+            </td>
+            <td><span class="tag">{{ p.category }}</span></td>
+            <td>
+              <button type="button" class="photos" (click)="openGallery(p)" title="View all images">
+                <span class="material-symbols-outlined">photo_library</span>
+                {{ p.productImages.length || 0 }} photos
+              </button>
+            </td>
+            <td>
+              <span class="status" [class.status--hidden]="!isVisible(p)">
+                <span class="status__dot"></span>
+                {{ isVisible(p) ? 'Active' : 'Hidden' }}
+              </span>
+            </td>
+            <td>
+              <div class="actions">
+                <button class="icon-btn" type="button" (click)="toggleVisibility(p)"
+                        [title]="isVisible(p) ? 'Hide from website' : 'Show on website'">
+                  <span class="material-symbols-outlined">
+                    {{ isVisible(p) ? 'visibility' : 'visibility_off' }}
+                  </span>
+                </button>
+                <a class="icon-btn" [routerLink]="['/products/edit', p.id]" title="Edit">
+                  <span class="material-symbols-outlined">edit</span>
+                </a>
+                <button class="icon-btn" type="button" (click)="openDeleteDialog(p)" title="Delete">
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <tr *ngIf="!loading && !filteredProducts.length">
+            <td colspan="6" class="empty">No products found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pager">
+      <span class="pager__info">
+        Showing <b>{{ from }}</b> to <b>{{ to }}</b> of <b>{{ totalCount }}</b> furniture items
+      </span>
+
+      <div class="pager__buttons">
+        <button type="button" class="page-btn" [disabled]="page === 1" (click)="goTo(page - 1)">
+          Previous
+        </button>
+        <button *ngFor="let n of pageList" type="button" class="page-btn page-btn--num"
+                [class.page-btn--active]="n === page" [disabled]="n === '…'" (click)="goTo(n)">
+          {{ n }}
+        </button>
+        <button type="button" class="page-btn" [disabled]="page >= totalPages" (click)="goTo(page + 1)">
+          Next
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ============ DELETE DIALOG ============ -->
+<lib-delete-confirm-dialog
+  *ngIf="productToDelete"
+  [name]="productToDelete.name"
+  [imageUrl]="getPrimaryImage(productToDelete)"
+  [deleting]="deleting"
+  (confirmed)="confirmDelete()"
+  (cancelled)="closeDeleteDialog()">
+</lib-delete-confirm-dialog>
+
+<!-- ============ GALLERY MODAL ============ -->
+<div class="gal-backdrop" *ngIf="galleryProduct" (click)="closeGallery()">
+  <div class="gal-modal" (click)="$event.stopPropagation()">
+
+    <div class="gal-head">
+      <div>
+        <h2 class="gal-title">{{ galleryProduct.name }}</h2>
+        <p class="gal-sub">
+          {{ galleryProduct.productImages.length || 0 }} images · click a star to choose the primary image
+        </p>
+      </div>
+      <button type="button" class="gal-close" (click)="closeGallery()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="gal-grid">
+      <div class="gal-item" *ngFor="let img of galleryProduct.productImages"
+           [class.gal-item--primary]="img.isPrimary">
+        <img [src]="img.imagesUrl" [alt]="galleryProduct.name" />
+
+        <button type="button" class="gal-star" [class.gal-star--on]="img.isPrimary"
+                (click)="askPrimary(img)"
+                [title]="img.isPrimary ? 'Primary image' : 'Set as primary image'">
+          <span class="material-symbols-outlined">star</span>
+        </button>
+
+        <span class="gal-badge" *ngIf="img.isPrimary">MAIN</span>
+      </div>
+    </div>
+
+    <p class="gal-empty" *ngIf="!galleryProduct.productImages.length">No images for this product.</p>
+  </div>
+</div>
+
+<!-- ============ SET PRIMARY CONFIRM ============ -->
+<div class="gal-backdrop gal-backdrop--top" *ngIf="imageToPrimary" (click)="cancelPrimary()">
+  <div class="confirm" (click)="$event.stopPropagation()">
+    <div class="confirm__icon">
+      <span class="material-symbols-outlined">star</span>
+    </div>
+    <h3 class="confirm__title">Set as Primary Image?</h3>
+
+    <div class="confirm__preview">
+      <img [src]="imageToPrimary.imagesUrl" alt="" />
+      <span class="gal-badge">MAIN</span>
+    </div>
+    <div class="confirm__caption">Catalog Master Asset</div>
+
+    <p class="confirm__text">
+      This image will become the main thumbnail across the master catalog, search results,
+      and category listings. The current primary image will become a gallery secondary view.
+    </p>
+
+    <div class="confirm__actions">
+      <button type="button" class="btn-cancel" [disabled]="settingPrimary" (click)="cancelPrimary()">
+        Cancel
+      </button>
+      <button type="button" class="btn-confirm" [disabled]="settingPrimary" (click)="confirmPrimary()">
+        <span class="material-symbols-outlined">check</span>
+        {{ settingPrimary ? 'Saving...' : 'Confirm & Set Primary Image' }}
+      </button>
+    </div>
+  </div>
+</div>

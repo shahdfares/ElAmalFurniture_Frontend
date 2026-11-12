@@ -1,0 +1,174 @@
+<div class="login">
+
+  <!-- ============ LEFT: Visual Panel ============ -->
+  <section class="visual">
+    <div class="visual__overlay"></div>
+
+    <div class="visual__top">
+      <div class="brand">
+        <div class="brand__logo">EA</div>
+        <div class="brand__text">
+          <span class="brand__name">ElAmal</span>
+          <span class="brand__sub">Atelier Admin</span>
+        </div>
+      </div>
+
+      <span class="portal-chip">
+        <span class="portal-chip__dot"></span>
+        Internal Curation &amp; Catalog Management Portal
+      </span>
+    </div>
+
+    <div class="visual__middle">
+      <span class="archive-tag">
+        <span class="material-symbols-outlined">chair</span>
+        Autumn Specimen Archive 2026
+      </span>
+
+      <h2 class="visual__title">
+        Creating Beautiful Spaces,<br />Managing Them with Care.
+      </h2>
+
+      <p class="visual__desc">
+        A dedicated workspace for brand directors and spatial curators overseeing
+        fine Mediterranean craftsmanship, tactile textiles, and architectural volumes.
+      </p>
+    </div>
+
+    <div class="visual__bottom">
+      <span class="infra">
+        <span class="material-symbols-outlined">verified_user</span>
+        Encrypted Atelier Infrastructure
+      </span>
+      <span class="mono">SECURE_ID: ELA-2049</span>
+      <span class="mono-dot">•</span>
+      <span class="mono">CURATION v4.2.1</span>
+    </div>
+  </section>
+
+  <!-- ============ RIGHT: Form Panel ============ -->
+  <section class="panel">
+
+    <header class="panel__top">
+      <span class="terminal">
+        <span class="material-symbols-outlined">deployed_code</span>
+        Authorized Atelier Terminal
+      </span>
+      <span class="gateway">
+        <span class="gateway__dot"></span>
+        Gateway Online
+      </span>
+    </header>
+
+    <div class="panel__body">
+      <h1 class="panel__title">Welcome Back!</h1>
+      <p class="panel__sub">Sign in to your ElAmal Dashboard</p>
+
+      <!-- Last login notice -->
+      <div class="notice" *ngIf="lastLogin">
+        <span class="material-symbols-outlined notice__icon">info</span>
+        <div class="notice__text">
+          <strong>Active session verified</strong>
+          <span>Last login: {{ lastLogin }}</span>
+        </div>
+        <button class="notice__close" type="button" (click)="dismissNotice()" aria-label="Dismiss">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <!-- Error -->
+      <div class="alert" *ngIf="errorMessage" role="alert">
+        <span class="material-symbols-outlined">error</span>
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+
+        <!-- Email -->
+        <div class="field">
+          <label class="field__label" for="email">Administrator Email</label>
+          <div class="input" [class.input--error]="email.invalid && email.touched">
+            <span class="material-symbols-outlined input__icon">mail</span>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="admin@elamal-furniture.com"
+              autocomplete="username"
+            />
+          </div>
+          <small class="field__error" *ngIf="email.touched && email.errors?.['required']">
+            Email is required.
+          </small>
+          <small class="field__error" *ngIf="email.touched && email.errors?.['email']">
+            Enter a valid email address.
+          </small>
+        </div>
+
+        <!-- Password -->
+        <div class="field">
+          <label class="field__label" for="password">Password</label>
+          <div class="input" [class.input--error]="password.invalid && password.touched">
+            <span class="material-symbols-outlined input__icon">lock</span>
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="••••••••"
+              autocomplete="current-password"
+            />
+            <button class="input__toggle" type="button" (click)="togglePassword()"
+                    [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+              <span class="material-symbols-outlined">
+                {{ showPassword ? 'visibility_off' : 'visibility' }}
+              </span>
+            </button>
+          </div>
+          <small class="field__error" *ngIf="password.touched && password.errors?.['required']">
+            Password is required.
+          </small>
+        </div>
+
+        <!-- Remember / Forgot -->
+        <div class="row">
+          <label class="check">
+            <input type="checkbox" formControlName="remember" />
+            <span class="check__box">
+              <span class="material-symbols-outlined">check</span>
+            </span>
+            Remember this workstation for 30 days
+          </label>
+
+          <a class="link" href="#">Forgot Password?</a>
+        </div>
+
+        <!-- Submit -->
+        <button class="btn-submit" type="submit" [disabled]="loading">
+          <ng-container *ngIf="!loading; else busy">
+            Sign In to Atelier
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </ng-container>
+          <ng-template #busy>
+            <span class="spinner"></span>
+            Signing in...
+          </ng-template>
+        </button>
+      </form>
+
+      <div class="notice-foot">
+        <span class="notice-foot__icon">
+          <span class="material-symbols-outlined">shield</span>
+        </span>
+        <p>
+          Strictly authorized access only. Public registration and external
+          authentication providers are disabled by Atelier protocol.
+        </p>
+      </div>
+    </div>
+
+    <footer class="panel__foot">
+      © 2026 ElAmal Furniture Atelier. All rights reserved. Restrictive access for
+      authorized curators and directors only.
+    </footer>
+  </section>
+</div>
