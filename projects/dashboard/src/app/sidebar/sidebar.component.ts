@@ -4,7 +4,6 @@ import { AuthServices } from '../services/auth-services';
 
 interface NavItem {
   label: string;
-  icon: string;
   route: string;
 }
 
@@ -17,11 +16,8 @@ interface NavItem {
 
 export class SidebarComponent {
   navItems: NavItem[] = [
-    { label: 'Overview', icon: 'dashboard', route: '/home' },
-    { label: 'Products', icon: 'chair', route: '/products' },
-    { label: 'Categories', icon: 'category', route: '/categories' },
-    { label: 'Inventory', icon: 'inventory_2', route: '/inventory' },
-    { label: 'Settings', icon: 'settings', route: '/settings' },
+    { label: 'Overview', route: '/home' },
+    { label: 'Products', route: '/products' },
   ];
 
   constructor(private auth: AuthServices, private router: Router) {}
