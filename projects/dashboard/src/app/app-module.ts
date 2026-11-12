@@ -28,7 +28,7 @@ import { AddproductComponent } from './addproduct/addproduct.component';
     SidebarComponent,
     AddproductComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, SharedUiModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, SharedUiModule, ReactiveFormsModule],
   providers: [
     provideBrowserGlobalErrorListeners(),
     { provide: API_URL, useValue: environment.apiUrl },

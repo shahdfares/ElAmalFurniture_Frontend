@@ -45,6 +45,19 @@ export class AddproductComponent implements OnInit, OnDestroy {
   categoriesLoading = false;
   categoriesError = '';
 
+  // Category dropdown
+  categoryOpen = false;
+
+  // Category add / rename modal
+  categoryModal: { mode: 'add' | 'edit'; id?: string } | null = null;
+  categoryModalName = '';
+  categoryModalError = '';
+  categoryModalSaving = false;
+
+  // Category delete confirmation modal
+  categoryToDelete: Category | null = null;
+  categoryDeleting = false;
+
   media: MediaItem[] = [];
   primaryId: string | null = null;
   isDragging = false;
@@ -104,7 +117,7 @@ export class AddproductComponent implements OnInit, OnDestroy {
   }
 
   // ---------- Categories ----------
-  loadCategories(): void {
+  loadCategories(selectName?: string): void {
     this.categoriesLoading = true;
     this.categoriesError = '';
 
@@ -113,12 +126,179 @@ export class AddproductComponent implements OnInit, OnDestroy {
         // Supports the API returning an array directly or wrapped in data / items
         this.categories = Array.isArray(res) ? res : (res?.data ?? res?.items ?? []);
         this.categoriesLoading = false;
+
+        // If the selected category no longer exists, clear the selection
+        const current = this.form.controls.categoryId.value;
+        if (current && !this.categories.some(c => String(c.id) === String(current))) {
+          this.form.controls.categoryId.setValue('');
+        }
+
+        // Auto-select a category that was just added
+        if (selectName) {
+          const created = this.categories.find(
+            c => c.name.toLowerCase() === selectName.toLowerCase()
+          );
+          if (created) this.form.controls.categoryId.setValue(String(created.id));
+        }
+
         this.cdr.detectChanges();
       },
       error: () => {
         this.categoriesError = 'Failed to load categories.';
         this.categoriesLoading = false;
         this.cdr.detectChanges();
+      },
+    });
+  }
+
+  get selectedCategoryName(): string {
+    const id = this.form.controls.categoryId.value;
+    if (!id) return '';
+    return this.categories.find(c => String(c.id) === String(id))?.name ?? '';
+  }
+
+  isCategorySelected(c: Category): boolean {
+    const id = this.form.controls.categoryId.value;
+    return !!id && String(c.id) === String(id);
+  }
+
+  toggleCategoryDropdown(): void {
+    if (this.categoryOpen) {
+      this.closeCategoryDropdown();
+    } else {
+      this.categoryOpen = true;
+    }
+  }
+
+  closeCategoryDropdown(): void {
+    if (!this.categoryOpen) return;
+    this.categoryOpen = false;
+    this.form.controls.categoryId.markAsTouched();
+  }
+
+  selectCategory(c: Category): void {
+    this.form.controls.categoryId.setValue(String(c.id));
+    this.categoryOpen = false;
+    this.form.controls.categoryId.markAsTouched();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.categoryOpen) return;
+    const target = event.target as HTMLElement | null;
+    if (!target?.closest('.cat-dropdown')) {
+      this.closeCategoryDropdown();
+    }
+  }
+
+  // ----- Category: add / rename -----
+  openAddCategory(): void {
+    this.categoryOpen = false;
+    this.categoryModal = { mode: 'add' };
+    this.categoryModalName = '';
+    this.categoryModalError = '';
+    this.focusById('category-modal-input');
+  }
+
+  openEditCategory(c: Category): void {
+    this.categoryOpen = false;
+    this.categoryModal = { mode: 'edit', id: String(c.id) };
+    this.categoryModalName = c.name;
+    this.categoryModalError = '';
+    this.focusById('category-modal-input');
+  }
+
+  closeCategoryModal(): void {
+    if (this.categoryModalSaving) return;
+    this.categoryModal = null;
+  }
+
+  saveCategoryModal(): void {
+    if (!this.categoryModal || this.categoryModalSaving) return;
+
+    const modal = this.categoryModal;
+    const name = this.categoryModalName.trim();
+
+    if (!name) {
+      this.categoryModalError = 'Name is required.';
+      return;
+    }
+
+    const duplicate = this.categories.some(
+      c => c.name.toLowerCase() === name.toLowerCase() && String(c.id) !== modal.id
+    );
+    if (duplicate) {
+      this.categoryModalError = 'This category already exists.';
+      return;
+    }
+
+    const request$ =
+      modal.mode === 'add'
+        ? this._CategoryServices.addCategories(name)
+        : this._CategoryServices.updateCategories(modal.id!, name);
+
+    this.categoryModalSaving = true;
+    this.categoryModalError = '';
+
+    request$.subscribe({
+      next: () => {
+        this.categoryModalSaving = false;
+        this.categoryModal = null;
+
+        if (modal.mode === 'edit') {
+          // Show the new name immediately, without waiting for the list to reload
+          this.categories = this.categories.map(c =>
+            String(c.id) === modal.id ? { ...c, name } : c
+          );
+          this.cdr.detectChanges();
+        }
+
+        this.loadCategories(modal.mode === 'add' ? name : undefined);
+        this.showToast('success', modal.mode === 'add' ? 'Category added.' : 'Category updated.');
+      },
+      error: (err) => {
+        this.categoryModalSaving = false;
+        console.error(err);
+        this.categoryModalError =
+          err?.error?.message || err?.error?.title || 'Something went wrong. Please try again.';
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  // ----- Category: delete -----
+  openDeleteCategory(c: Category): void {
+    this.categoryOpen = false;
+    this.categoryToDelete = c;
+  }
+
+  closeDeleteCategory(): void {
+    if (this.categoryDeleting) return;
+    this.categoryToDelete = null;
+  }
+
+  confirmDeleteCategory(): void {
+    const category = this.categoryToDelete;
+    if (!category || this.categoryDeleting) return;
+
+    this.categoryDeleting = true;
+    this._CategoryServices.deleteCategories(String(category.id)).subscribe({
+      next: () => {
+        this.categoryDeleting = false;
+        this.categoryToDelete = null;
+        this.categories = this.categories.filter(c => String(c.id) !== String(category.id));
+
+        if (String(this.form.controls.categoryId.value) === String(category.id)) {
+          this.form.controls.categoryId.setValue('');
+        }
+
+        this.showToast('success', 'Category deleted.');
+      },
+      error: (err) => {
+        this.categoryDeleting = false;
+        this.categoryToDelete = null;
+        console.error(err);
+        this.showToast('error', err?.error?.message || err?.error?.title || 'Failed to delete category.');
       },
     });
   }
@@ -215,6 +395,9 @@ export class AddproductComponent implements OnInit, OnDestroy {
 
   @HostListener('document:keydown.escape')
   onEscape(): void {
+    this.closeCategoryDropdown();
+    this.closeCategoryModal();
+    this.closeDeleteCategory();
     this.closeSpecModal();
     this.closeDeleteSpec();
   }

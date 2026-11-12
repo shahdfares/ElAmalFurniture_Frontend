@@ -245,6 +245,173 @@ textarea:focus {
   color: var(--text-muted);
 }
 
+/* ---------- Category dropdown ---------- */
+.cat-dropdown {
+  position: relative;
+}
+
+.cat-trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 46px;
+  padding: 0 40px 0 16px;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--text);
+  background: var(--surface-white);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cat-trigger:focus,
+.cat-trigger.open {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(107, 73, 56, 0.12);
+}
+
+.cat-trigger-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Renamed from ".placeholder": that class name is a global skeleton-loader style (grey block) in some frameworks */
+.cat-trigger-text.cat-placeholder { color: var(--text-muted); }
+
+.cat-trigger.open .select-icon {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.cat-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 6px;
+  background: var(--surface-white);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px -8px rgba(27, 28, 26, 0.25);
+  animation: sd-in 0.15s ease-out;
+}
+
+.cat-option {
+  position: relative;
+  border-radius: 8px;
+  --cat-bg: var(--surface-white);
+}
+
+.cat-option:hover,
+.cat-option:focus-within {
+  --cat-bg: var(--surface);
+  background: var(--cat-bg);
+}
+
+.cat-option.active {
+  --cat-bg: #f7eee4;
+  background: var(--cat-bg);
+}
+
+.cat-name {
+  display: block;
+  width: 100%;
+  height: 40px;
+  padding: 0 14px;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cat-option.active .cat-name {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.cat-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 6px 0 28px;
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(to right, transparent, var(--cat-bg) 24px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+
+.cat-option:hover .cat-actions,
+.cat-option:focus-within .cat-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Touch devices have no hover, so always show the actions */
+@media (hover: none) {
+  .cat-actions {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.cat-empty {
+  margin: 0;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.cat-add {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 14px;
+  border: 0;
+  border-top: 1px solid var(--border);
+  border-radius: 0 0 8px 8px;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--primary);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cat-add:hover { background: #f7eee4; }
+
+.cat-add-icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1.5px dashed var(--secondary);
+  border-radius: 50%;
+  background: #fdfaf6;
+}
+.cat-add-icon .material-symbols-outlined { font-size: 16px; }
+
 /* ---------- Editor ---------- */
 .editor {
   border: 1px solid var(--border-strong);
@@ -673,7 +840,7 @@ input.spec-value {
   .ap-toast { left: 16px; right: 16px; max-width: none; }
 }
 
-/* ---------- Modals (add / rename / delete specification) ---------- */
+/* ---------- Modals (add / rename / delete: category + specification) ---------- */
 .sd-backdrop {
   position: fixed;
   inset: 0;

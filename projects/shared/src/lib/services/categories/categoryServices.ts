@@ -14,4 +14,16 @@ export class CategoryServices {
   getCategories():Observable<any>{
     return this._HttpClient.get(`${this.apiUrl}/category`);
   }
+
+  addCategories(name: string):Observable<any>{
+    return this._HttpClient.post(`${this.apiUrl}/category`,{name} );
+  }
+
+  updateCategories(id: string, name: string):Observable<any>{
+    return this._HttpClient.put(`${this.apiUrl}/category/${id}`, {name});
+  }
+
+  deleteCategories(id: string):Observable<any>{
+    return this._HttpClient.delete(`${this.apiUrl}/category/${id}`);
+  }
 }
