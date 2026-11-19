@@ -14,5 +14,5 @@ RUN npm run build:dashboard
 # Stage 2: serve
 FROM nginx:alpine
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/dist/website/browser /usr/share/nginx/html
+COPY --from=builder /app/dist/dashboard/browser /usr/share/nginx/html
 EXPOSE 80
