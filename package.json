@@ -5,6 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:shared": "ng build shared",
+    "build:website": "ng build website",
+    "build:dashboard": "ng build dashboard",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
