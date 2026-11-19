@@ -14,7 +14,7 @@ jobs:
       - run: docker build -t website-tests -f projects/website/Dockerfile.dev .
       - run: docker build -t dashboard-tests -f projects/dashboard/Dockerfile.dev .
 
-      - run: docker run -e CI=true website-tests npm run tests
+      - run: docker run -e CI=true website-tests npm run test
       - run: docker run -e CI=true dashboard-tests npm run test
 
       - run: docker build -t ElAmal/website -f projects/website/Dockerfile .
