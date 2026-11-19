@@ -8,7 +8,8 @@ RUN npm install
 
 COPY . .
 
-RUN npm build
+RUN npm run build:shared
+RUN npm run build:dashboard
 
 #nginx
 RUN nginx

@@ -8,10 +8,10 @@ RUN npm install
 
 COPY . .
 
-RUN npm build
+RUN npm run build:shared
+RUN npm run build:website
 
-
-#nginxxx
+#nginx
 RUN nginx
 Expose 80
 COPY nginx/deafault.conf /etc/nginx/conf.d/default.conf
