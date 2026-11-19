@@ -1,8 +1,12 @@
-import { Component, OnDestroy, OnInit, ChangeDetectorRef, ElementRef, HostListener } from '@angular/core';
+import {
+  Component, OnDestroy, OnInit, ChangeDetectorRef,
+  ElementRef, HostListener, ViewChild
+} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { Category, CategoryServices } from 'shared';
 import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-navbar',
   standalone: false,
@@ -11,6 +15,8 @@ import { environment } from '../../environments/environment';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
+  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
+
   dashboardUrl = environment.dashboard;
 
   showSearch = false;
@@ -18,10 +24,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   currentLanguage: 'EN' | 'AR' = 'EN';
 
   isHomePage = false;
+  currentUrl = '';
 
   categories: Category[] = [];
-
-  // Dropdown state
   categoriesOpen = false;
 
   private routerSubscription: Subscription;
@@ -35,9 +40,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.updateCurrentPage(this.router.url);
 
     this.routerSubscription = this.router.events
-      .pipe(
-        filter((event): event is NavigationEnd => event instanceof NavigationEnd)
-      )
+      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe((event) => {
         this.updateCurrentPage(event.urlAfterRedirects);
         this.closeCategories();
@@ -59,15 +62,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   private updateCurrentPage(url: string): void {
+    this.currentUrl = url;
     this.isHomePage =
-      url === '/home' ||
-      url === '/' ||
-      url.startsWith('/home?');
+      url === '/home' || url === '/' || url.startsWith('/home?');
+  }
+
+  // Categories ينور لما نكون جوه /collections/:slug
+  get isCategoryRoute(): boolean {
+    return this.currentUrl.startsWith('/collections/');
   }
 
   // ---------- Categories dropdown ----------
 
-  // Hover / Click: افتح
   openCategories(): void {
     if (!this.categoriesOpen) {
       this.categoriesOpen = true;
@@ -75,12 +81,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Click على اللينك: افتح (من غير toggle) ومتروحش لأي صفحة
   onCategoriesClick(event: Event): void {
     event.preventDefault();
     this.openCategories();
   }
-
 
   closeCategories(): void {
     if (this.categoriesOpen) {
@@ -89,37 +93,75 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  // pointerdown بيشتغل فوراً على الماوس واللمس
-  @HostListener('document:pointerdown', ['$event'])
-  onDocumentClick(event: Event): void {
-    const dropdown = this.elRef.nativeElement.querySelector('.categories-dropdown');
+  // ---------- Search ----------
 
-    if (dropdown && !dropdown.contains(event.target as Node)) {
-      this.closeCategories();
-    }
-  }
-
-  get nextLanguage(): 'EN' | 'AR' {
-    return this.currentLanguage === 'EN' ? 'AR' : 'EN';
-  }
-
-  toggleSearch(): void {
-    this.showSearch = !this.showSearch;
+  // الضغط على الأيقونة: يفتح ويفضل مفتوح (مفيش toggle)
+  onSearchIconClick(): void {
     if (!this.showSearch) {
-      this.searchTerm = '';
+      this.openSearch();
+    } else if (this.searchTerm.trim()) {
+      this.submitSearch();          // لو في كلمة مكتوبة يبحث
+    } else {
+      this.searchInput?.nativeElement.focus();
     }
-    this.cdr.detectChanges();
   }
 
-  toggleLanguage(): void {
-    this.currentLanguage = this.currentLanguage === 'EN' ? 'AR' : 'EN';
+  openSearch(): void {
+    this.showSearch = true;
     this.cdr.detectChanges();
+    setTimeout(() => this.searchInput?.nativeElement.focus(), 50);
+  }
+
+  closeSearch(): void {
+    if (this.showSearch) {
+      this.showSearch = false;
+      this.searchTerm = '';
+      this.cdr.detectChanges();
+    }
   }
 
   submitSearch(): void {
     const query = this.searchTerm.trim();
     if (!query) return;
-    console.log('Search:', query);
+
+    this.router.navigate(['/collections'], {
+      queryParams: { search: query },
+    });
+  }
+
+  // ---------- Outside click / Escape ----------
+
+  @HostListener('document:pointerdown', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as Node;
+    const host: HTMLElement = this.elRef.nativeElement;
+
+    const dropdown = host.querySelector('.categories-dropdown');
+    if (dropdown && !dropdown.contains(target)) {
+      this.closeCategories();
+    }
+
+    const search = host.querySelector('.search-container');
+    if (this.showSearch && search && !search.contains(target)) {
+      this.closeSearch();
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.closeSearch();
+    this.closeCategories();
+  }
+
+  // ---------- Language ----------
+
+  get nextLanguage(): 'EN' | 'AR' {
+    return this.currentLanguage === 'EN' ? 'AR' : 'EN';
+  }
+
+  toggleLanguage(): void {
+    this.currentLanguage = this.currentLanguage === 'EN' ? 'AR' : 'EN';
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {

@@ -9,12 +9,41 @@
 
 /* ---- Hero ---- */
 .cat-hero {
-  background: var(--color-surface-alt);
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
   padding: 72px 6% 60px;
   border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-alt); /* fallback while the image loads */
+}
+
+.cat-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.cat-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(27, 28, 26, 0.75) 0%,
+    rgba(27, 28, 26, 0.45) 50%,
+    rgba(27, 28, 26, 0.15) 100%
+  );
+  z-index: 1;
 }
 
 .cat-hero-content {
+  position: relative;
+  z-index: 2;
   max-width: 560px;
 }
 
@@ -27,6 +56,11 @@
   color: var(--color-text-secondary);
 }
 
+/* Eyebrow inside the hero only (white over the image) */
+.cat-hero .eyebrow {
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .cat-hero h1 {
   margin: 0 0 14px;
   font-family: var(--font-heading);
@@ -34,7 +68,7 @@
   font-weight: 400;
   letter-spacing: -1.5px;
   line-height: 1.05;
-  color: var(--color-text);
+  color: #fff;
 }
 
 .hero-desc {
@@ -44,7 +78,7 @@
   font-size: 13px;
   font-weight: 300;
   line-height: 1.8;
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* Breadcrumb */
@@ -54,25 +88,25 @@
   gap: 8px;
   font-family: var(--font-body);
   font-size: 11px;
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .breadcrumb-nav a {
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .breadcrumb-nav a:hover {
-  color: var(--color-text);
+  color: #fff;
 }
 
 .breadcrumb-nav .separator {
-  opacity: 0.4;
+  opacity: 0.5;
 }
 
 .breadcrumb-nav .current {
-  color: var(--color-text);
+  color: #fff;
   font-weight: 500;
 }
 
@@ -312,6 +346,7 @@
 /* ---- Responsive ---- */
 @media (max-width: 768px) {
   .cat-hero {
+    min-height: 340px;
     padding: 60px 5% 48px;
   }
 

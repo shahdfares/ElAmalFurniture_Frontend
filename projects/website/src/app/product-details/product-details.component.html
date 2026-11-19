@@ -5,7 +5,7 @@
     <div class="pd-crumbs__trail">
       <a routerLink="/">Home</a>
       <span>/</span>
-      <a [routerLink]="['/', p.categorySlug]">{{ p.category }}</a>
+    <a [routerLink]="['/collections', p.categorySlug]">{{ p.category }}</a>
       <span>/</span>
       <span class="pd-crumbs__current">
         {{ p.name }}<ng-container *ngIf="p.code"> (Ref. {{ p.code }})</ng-container>

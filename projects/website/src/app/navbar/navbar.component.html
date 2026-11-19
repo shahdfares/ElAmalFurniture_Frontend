@@ -1,56 +1,47 @@
-<nav
-  class="navbar furniture-navbar"
-  [class.home-navbar]="isHomePage"
->
+<nav class="navbar furniture-navbar" [class.home-navbar]="isHomePage">
   <div class="container-fluid navbar-content">
 
     <!-- Logo -->
     <a class="navbar-brand" routerLink="/home">
-      <img
-        src="/images/Logo.png"
-        alt="ElAmal Furniture"
-        class="brand-logo"
-      />
+      <img src="/images/Logo.png" alt="ElAmal Furniture" class="brand-logo" />
     </a>
 
     <!-- Center Navigation -->
     <ul class="navbar-nav main-nav">
 
       <li class="nav-item">
-        <a class="nav-link" routerLink="/home">Home</a>
+        <a class="nav-link"
+           routerLink="/home"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }">Home</a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" routerLink="/about">About</a>
+        <a class="nav-link"
+           routerLink="/about"
+           routerLinkActive="active">About</a>
       </li>
 
-      <!-- Categories: Hover + Click Dropdown -->
       <li class="nav-item dropdown categories-dropdown"
           [class.open]="categoriesOpen"
           (mouseenter)="openCategories()"
           (mouseleave)="closeCategories()">
-        <a
-          class="nav-link dropdown-toggle"
-          href="#"
-          role="button"
-          id="categoriesDropdown"
-          [attr.aria-expanded]="categoriesOpen"
-          (click)="onCategoriesClick($event)"
-        >
+        <a class="nav-link dropdown-toggle"
+           [class.active]="isCategoryRoute"
+           href="#"
+           role="button"
+           id="categoriesDropdown"
+           [attr.aria-expanded]="categoriesOpen"
+           (click)="onCategoriesClick($event)">
           Categories
         </a>
 
-        <ul
-          class="dropdown-menu categories-menu"
-          aria-labelledby="categoriesDropdown"
-        >
+        <ul class="dropdown-menu categories-menu" aria-labelledby="categoriesDropdown">
           <li *ngFor="let c of categories">
-            <a
-              class="dropdown-item"
-              [routerLink]="['/collections', c.slug]"
-              routerLinkActive="active"
-              (click)="closeCategories()"
-            >
+            <a class="dropdown-item"
+               [routerLink]="['/collections', c.slug]"
+               routerLinkActive="active"
+               (click)="closeCategories()">
               {{ c.name }}
             </a>
           </li>
@@ -58,7 +49,10 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" routerLink="/collections">Collections</a>
+        <a class="nav-link"
+           routerLink="/collections"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }">Collections</a>
       </li>
 
     </ul>
@@ -66,13 +60,8 @@
     <!-- Right Actions -->
     <div class="navbar-actions">
 
-      <!-- Language -->
-      <button
-        class="language-btn"
-        type="button"
-        (click)="toggleLanguage()"
-        [attr.aria-label]="'Switch language to ' + nextLanguage"
-      >
+      <button class="language-btn" type="button" (click)="toggleLanguage()"
+              [attr.aria-label]="'Switch language to ' + nextLanguage">
         <i class="fa-solid fa-globe"></i>
         <span>{{ nextLanguage }}</span>
       </button>
@@ -80,10 +69,7 @@
       <span class="action-divider"></span>
 
       <!-- Expandable Search -->
-      <div
-        class="search-container"
-        [class.expanded]="showSearch"
-      >
+      <div class="search-container" [class.expanded]="showSearch">
         <input
           #searchInput
           type="search"
@@ -98,21 +84,18 @@
         <button
           class="search-toggle"
           type="button"
-          (click)="toggleSearch()"
-          [attr.aria-label]="showSearch ? 'Close search' : 'Open search'"
+          (click)="onSearchIconClick()"
+          aria-label="Search"
           [attr.aria-expanded]="showSearch"
         >
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </div>
 
-      <!-- Dashboard -->
-    <a
-    class="dashboard-btn"
-    [href]="dashboardUrl"
-    target="_blank"
-    rel="noopener noreferrer"> Dashboard
-    </a>
+      <a class="dashboard-btn"
+        [href]="dashboardUrl"
+        target="_blank"
+        rel="noopener noreferrer">Dashboard</a>
 
     </div>
   </div>
