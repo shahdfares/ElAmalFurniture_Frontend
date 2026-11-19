@@ -25,4 +25,4 @@ jobs:
       - run: docker push ElAmal/dashboard
       - run: docker push ElAmal/nginx
 
-#Artifact
+#Artifactt
