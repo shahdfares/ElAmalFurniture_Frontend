@@ -11,7 +11,7 @@ COPY . .
 RUN npm build
 
 
-#nginx
+#nginxxx
 RUN nginx
 Expose 80
 COPY nginx/deafault.conf /etc/nginx/conf.d/default.conf
