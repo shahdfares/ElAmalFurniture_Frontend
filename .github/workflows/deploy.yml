@@ -25,4 +25,4 @@ jobs:
       - run: docker push shahdfares/elamal-dashboard
       - run: docker push shahdfares/elamal-nginx
 
-#Artifact
+#Artifactttt
