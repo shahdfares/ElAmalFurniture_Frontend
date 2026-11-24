@@ -155,7 +155,7 @@
   display: block;
   height: 100%;
   min-width: 0;
-  background: var(--color-surface-container);
+  background: #F5EEE7; /* same color as the Home page cards */
   color: var(--color-text);
   text-decoration: none;
   border: 0;

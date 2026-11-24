@@ -16,6 +16,7 @@ import { ProductComponent } from './product/product.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AddproductComponent } from './addproduct/addproduct.component';
+import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.component';
 
 @NgModule({
   declarations: [
@@ -27,8 +28,15 @@ import { AddproductComponent } from './addproduct/addproduct.component';
     NavbarComponent,
     SidebarComponent,
     AddproductComponent,
+    AdminLayoutComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, SharedUiModule, ReactiveFormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedUiModule,
+  ],
   providers: [
     provideBrowserGlobalErrorListeners(),
     { provide: API_URL, useValue: environment.apiUrl },

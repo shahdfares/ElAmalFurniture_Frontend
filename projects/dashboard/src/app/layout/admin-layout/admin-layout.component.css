@@ -1,0 +1,10 @@
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--surface);
+}
+
+.page {
+  flex: 1;
+  min-width: 0;
+}

@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-  apiUrl: 'https://localhost:7076/api/dashboard',
+  apiUrl: 'http://dashboard.4.149.217.81.nip.io/api/dashboard',
 };

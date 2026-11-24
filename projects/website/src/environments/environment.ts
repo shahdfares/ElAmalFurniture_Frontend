@@ -1,7 +1,7 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'https://localhost:7136/api',
+  apiUrl: 'http://4.149.217.81.nip.io/api',
   dashboard: 'http://localhost:4200',
-  hubUrl: 'https://localhost:7136/hubs/products'
+  hubUrl: 'http://dashboard.4.149.217.81.nip.io/hubs/products'
 };
